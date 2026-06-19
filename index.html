@@ -53,6 +53,15 @@
                     document.getElementById('eth-price').innerText = price;
                 })
                 .catch(err => document.getElementById('eth-price').innerText = "Errore");
+
+            // Fetch Solana
+            fetch('https://api.coinbase.com/v2/prices/SOL-USD/spot')
+                .then(res => res.json())
+                .then(data => {
+                    const price = parseFloat(data.data.amount).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                    document.getElementById('eth-price').innerText = price;
+                })
+                .catch(err => document.getElementById('eth-price').innerText = "Errore");
         }
 
         fetchPrices();
