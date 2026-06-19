@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Dashboard Live 🚀</title>
+    <style>
+        body { background: #0f172a; color: #f8fafc; font-family: 'Segoe UI', system-ui, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        h1 { color: #94a3b8; font-size: 28px; margin-bottom: 30px; }
+        .dashboard { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 800px; }
+        .card { background: #1e293b; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; border: 1px solid #334155; flex: 1; min-width: 280px; }
+        .ticker { font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; }
+        .btc { color: #f59e0b; }
+        .eth { color: #6366f1; }
+        .price { font-size: 36px; font-weight: 800; margin: 10px 0; font-variant-numeric: tabular-nums; }
+        .status { font-size: 12px; color: #64748b; margin-top: 20px; width: 100%; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <h1>Crypto Live Dashboard 🚀</h1>
+
+    <div class="dashboard">
+        <div class="card">
+            <div class="ticker btc">Bitcoin / USD</div>
+            <div class="price btc" id="btc-price">Caricamento...</div>
+        </div>
+
+        <div class="card">
+            <div class="ticker eth">Ethereum / USD</div>
+            <div class="price eth" id="eth-price">Caricamento...</div>
+        </div>
+    </div>
+
+    <div class="status">Aggiornamento automatico live ogni 5 secondi (Coinbase API)</div>
+
+    <script>
+        function fetchPrices() {
+            // Fetch Bitcoin
+            fetch('https://api.coinbase.com/v2/prices/BTC-USD/spot')
+                .then(res => res.json())
+                .then(data => {
+                    const price = parseFloat(data.data.amount).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                    document.getElementById('btc-price').innerText = price;
+                })
+                .catch(err => document.getElementById('btc-price').innerText = "Errore");
+
+            // Fetch Ethereum
+            fetch('https://api.coinbase.com/v2/prices/ETH-USD/spot')
+                .then(res => res.json())
+                .then(data => {
+                    const price = parseFloat(data.data.amount).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                    document.getElementById('eth-price').innerText = price;
+                })
+                .catch(err => document.getElementById('eth-price').innerText = "Errore");
+        }
+
+        fetchPrices();
+        setInterval(fetchPrices, 5000);
+    </script>
+</body>
+</html>
